@@ -6,23 +6,22 @@
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
         {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
         {% endblock %}
 
         {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
+            {{ importmap('app') }}
         {% endblock %}
 
         <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
         <script>
             tailwind.config = {darkMode: 'class'}
         </script>
+        
     </head>
     <body class="bg-gray-100 text-gray-800 m-10 dark:bg-gray-800 dark:text-white">
         <div class="w-full md:w-2/3 mx-auto mb-4 flex justify-between items-center">
             <div class="text-4xl">
                 <a href="{{ path('app_advertisement') }}">Home</a>
-                <a href="{{ path('app_advertisement_topliked') }}">Top Liked</a>
                 {% block bread %}
                 
                 {% endblock %}
@@ -30,9 +29,15 @@
 
             <div class="text-right">
                 <div class="text-sm text-gray-500 dark:text-gray-400 flex">
+                    <div class="mr-2">
+                        <a href="{{ path('app_advertisement_topliked') }}">Top Liked</a>
+                    </div>
                     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                     <div class="mr-2">
                         <a href="{{ path('app_advertisement_add') }}">Add new Advertisement</a>
+                    </div>
+                    <div class="mr-2">
+                        <a href="{{ path('app_profile', {id: app.user.id}) }}">My Ads</a>
                     </div>
                     <div class="mr-2">
                         <a href="{{ path('app_settings_profile') }} ">Profile Settings</a>

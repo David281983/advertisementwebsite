@@ -1,0 +1,16 @@
+<form method="get" action="{{ path(action|default('app_advertisement'), params|default({})) }}" class="flex flex-wrap gap-3 mb-6">
+    <input type="text" name="q" value="{{ q|default('') }}" placeholder="Search title or description"
+           class="flex-1 min-w-48 bg-white dark:text-gray-800 rounded-md border border-gray-300 p-2">
+
+    <input type="text" name="location" value="{{ location|default('') }}" placeholder="Location"
+           class="w-48 bg-white dark:text-gray-800 rounded-md border border-gray-300 p-2">
+
+    <select name="sort" class="bg-white dark:text-gray-800 rounded-md border border-gray-300 p-2">
+        <option value="newest" {{ sort|default('newest') == 'newest' ? 'selected' }}>Newest first</option>
+        <option value="oldest" {{ sort|default('newest') == 'oldest' ? 'selected' }}>Oldest first</option>
+    </select>
+
+    <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white rounded-md px-5 py-2">Search</button>
+</form>
+
+<div class="mb-4 text-gray-500 dark:text-gray-400">{{ total }} results found</div>

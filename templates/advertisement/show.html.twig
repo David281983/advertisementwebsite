@@ -5,47 +5,54 @@
 → Advertisement
 {% endblock %}
 {% block body %}
-      <div class="flex items-center mb-4">
-        <div>
-            {{include('shared/_avatar.html.twig',{ profile:advertisement.author.userProfile, size:16 } )  }}
-        </div>
-        <div class="ml-4">
-            <div class="text-xl">
-                {{advertisement.author.userProfile.name ?? advertisement.author.email }}
-            </div>
-        
-            <div class="text-sm text-gray-500 dark:text-gray-400">
-                <a href="{{path('app_profile',{id: advertisement.author.id} ) }} ">
-                    {{advertisement.author.email }}
-                </a>
-            </div>
-        </div>
+
+{{ include('advertisement/_gallery.html.twig') }}
+
+<div class="flex justify-between items-center mt-4">
+    <div class="text-sm uppercase tracking-wide text-gray-500 dark:text-gray-400">
+        {{ advertisement.locationName ?? 'Location not specified' }}
     </div>
-    {{ include('advertisement/_gallery.html.twig') }}
-    <h1 class="text-3xl mt-6">{{ advertisement.title }}</h1>
-      <div class="flex justify-between items-center mt-4">
-            <div class="text-3xl text-green-600 dark:text-green-400">
-            {{ advertisement.price }} Lei
-            </div>
-            <div class="flex gap-4 items-center">
-            {% if advertisement.favoritedBy.contains(app.user) %}
-                  <a href="{{ path('app_unfavorite', {id: advertisement.id}) }}">Unfavorite ({{ advertisement.favoritedBy.count }})</a>
-            {% else %}
-                  <a href="{{ path('app_favorite', {id: advertisement.id}) }}">Favorite ({{ advertisement.favoritedBy.count }})</a>
-            {% endif %}
-            
-            {% if is_granted(constant('App\\Entity\\Advertisement::EDIT'), advertisement) %}
+
+    <div class="flex gap-4 items-center text-sm">
+        {% if advertisement.favoritedBy.contains(app.user) %}
+            <a href="{{ path('app_unfavorite', {id: advertisement.id}) }}">Unfavorite ({{ advertisement.favoritedBy.count }})</a>
+        {% else %}
+            <a href="{{ path('app_favorite', {id: advertisement.id}) }}">Favorite ({{ advertisement.favoritedBy.count }})</a>
+        {% endif %}
+
+        {% if is_granted(constant('App\\Entity\\Advertisement::EDIT'), advertisement) %}
             <a href="{{ path('app_advertisement_edit', {advertisement: advertisement.id}) }}">Edit</a>
-            {% else %}
-                  <div></div>
-            {% endif %}
+        {% endif %}
+    </div>
+</div>
+
+<h1 class="text-3xl mt-4">{{ advertisement.title }}</h1>
+
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
+    <div class="lg:col-span-2 flex flex-col justify-center">
+        {# aici vor veni atributele: camere, mp, an fabricatie... #}
+
+      <div>
+            <div class="text-sm uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-1">
+                  Price
             </div>
+      <div class="text-4xl text-green-600 dark:text-green-400">
+            {{ advertisement.price }} Lei
       </div>
       <div class="text-sm text-gray-500 dark:text-gray-400 mt-2">
-      {{ advertisement.created|date("M j, Y") }}
+            Posted {{ advertisement.created|date("M j, Y") }}
+        </div>
       </div>
-            <div class="bg-white dark:bg-gray-700 rounded-2xl p-6 mt-6">
-            <h2 class="text-xl mb-4">Description</h2>
-            <div class="whitespace-pre-line">{{ advertisement.description }}</div>
-      </div>
+    </div>
+
+    <div class="lg:col-span-1">
+        {{ include('advertisement/_seller_card.html.twig') }}
+    </div>
+</div>
+
+<div class="bg-white dark:bg-gray-700 rounded-2xl p-6 mt-8 shadow-lg">
+    <h2 class="text-xl mb-4">Object description</h2>
+    <div class="whitespace-pre-line">{{ advertisement.description }}</div>
+</div>
+
 {% endblock %}

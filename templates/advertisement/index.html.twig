@@ -3,6 +3,28 @@
 {% block title %}All Advertisements{% endblock %}
 
 {% block body %}
-<div class="flex border-b border-gray-300 dark:border-gray-600 w-full mb-8 mt-18"></div>
+{{include('advertisement/_search_form.html.twig') }}
+<div class="flex border-b border-gray-300 dark:border-gray-600 w-full mb-8 mt-4"></div>
 {{include('advertisement/_advertisement_list.html.twig')}}
+
+{% if pages > 1 %}
+    <div class="flex gap-3 justify-center mt-8">
+    {% if page > 1 %}
+        <a href="{{ path('app_advertisement', {page: page - 1}) }}">← Previous</a>
+    {% endif %}
+
+    {% for p in 1..pages %}
+        <a href="{{ path('app_advertisement', {page: p}) }}"
+        class="{{ p == page ? 'font-bold underline' : 'text-gray-500' }}">{{ p }}</a>
+    {% endfor %}
+
+    {% if page < pages %}
+        <a href="{{ path('app_advertisement', {page: page + 1}) }}">Next →</a>
+    {% endif %}
+    </div>
+{% endif %}
+
+
+
 {% endblock %}
+

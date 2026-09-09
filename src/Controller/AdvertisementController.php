@@ -27,10 +27,22 @@ final class AdvertisementController extends AbstractController
 
 
     #[Route('/advertisements', name: 'app_advertisement')]
-    public function index(AdvertisementRepository $advertisements,EntityManagerInterface $em): Response
+    public function index(AdvertisementRepository $advertisements,EntityManagerInterface $em,Request $request): Response
     {
+        $page = max(1, $request->query->getInt('page', 1));
+        $search = trim((string) $request->query->get('q', ''));
+        $location = trim((string) $request->query->get('location', ''));
+        $sort = $request->query->get('sort', 'newest');
+        $perPage = 10;
+        $paginator = $advertisements->findAllPaginated($page, $perPage,$search ?: null, $location ?: null, $sort);
         return $this->render('advertisement/index.html.twig', [
-            'advertisements' => $advertisements->findAllWithLikes(),
+            'advertisements' => $paginator,
+            'page'  => $page,
+            'pages' => (int) ceil(count($paginator) / $perPage),
+            'total' => count($paginator),
+            'q'=> $search,
+            'location'=> $location,
+            'sort'=> $sort,
         ]);
     }
 

@@ -5,10 +5,23 @@
 → User Profile
 {% endblock %}
 {% block body %}
-{{include('profile/_profile_header.html.twig') }}
+<div class="grid grid-cols-1 lg:grid-cols-10 gap-8">
 
-<div class="mb-8">
-    {{ include ('advertisement/_advertisement_list.html.twig', { advertisements: advertisements }) }}
+    <div class="lg:col-span-3">
+        {{ include('profile/_profile_card.html.twig') }}
+    </div>
 
+    <div class="lg:col-span-7">
+        {% if user.userProfile and user.userProfile.bio %}
+            <div class="whitespace-pre-line mb-8">{{ user.userProfile.bio }}</div>
+        {% endif %}
+
+        {{ include('advertisement/_search_form.html.twig', {
+            action: 'app_profile',
+            params: { id: user.id }
+        }) }}
+
+        {{ include('advertisement/_advertisement_list.html.twig', { advertisements: advertisements }) }}
+    </div>
 </div>
 {% endblock %}
