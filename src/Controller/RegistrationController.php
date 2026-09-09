@@ -44,7 +44,7 @@ class RegistrationController extends AbstractController
             // todo: add this somewhere else to resend confirmation email
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
                 (new TemplatedEmail())
-                    ->from(new Address('accounts@myadsproject.com', 'Ads Verify'))
+                    ->from(new Address('dorinmailernoreply@gmail.com', 'Accounts Verify No Reply'))
                     ->to((string) $user->getEmail())
                     ->subject('Please Confirm your Email')
                     ->htmlTemplate('registration/confirmation_email.html.twig')

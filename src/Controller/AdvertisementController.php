@@ -54,13 +54,7 @@ final class AdvertisementController extends AbstractController
         ]);
     }
 
-    #[Route('/advertisements/sortFavorites', name: 'app_advertisement_sortfavorites')]
-    public function sortFavorites(AdvertisementRepository $advertisements,EntityManagerInterface $em): Response
-    {
-        return $this->render('advertisement/top_liked.html.twig', [
-            'advertisements' => $advertisements->sortByMostFavorites(2),
-        ]);
-    }
+    
 
     
 
@@ -155,5 +149,23 @@ final class AdvertisementController extends AbstractController
             $image->setPosition($position++);
             $advertisement->addImage($image);
         }
+    }
+
+    #[Route('/advertisements/{advertisement}/delete', name: 'app_advertisement_delete', methods: ['POST'])]
+    #[IsGranted(Advertisement::EDIT,'advertisement')]
+    public function delete(Advertisement $advertisement, Request $request,EntityManagerInterface $em) : Response {
+        if (!$this->isCsrfTokenValid('delete' . $advertisement->getId(), $request->request->get('_token'))) {
+            throw $this->createAccessDeniedException('Invalid token');
+        }
+        foreach ($advertisement->getImages() as $image) {
+            $path = $this->getParameter('ads_directory') . '/' . $image->getFilename();
+            if (is_file($path)) {
+                unlink($path);
+            }
+        }
+        $em->remove($advertisement);
+        $em->flush();
+        $this->addFlash('success', 'Your advertisement has been deleted');
+        return $this->redirectToRoute('app_advertisement');
     }
 }
