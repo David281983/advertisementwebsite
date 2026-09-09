@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+{% block bread %}
+→ Login
+{% endblock %}
+{% block body %}
+<form action="{{ path('app_login') }} " method="POST">
+    <div>
+        <label class="block text-sm text-gray-700 dark:text-gray-300 font-medium">Email</label>
+        <input type="text" name="_username" value="{{ last_username }}" class="block w-full bg-white shadow-md border-gray-300  dark:text-gray-700 rounded-md border p-2 mt-1 mb-2" />
+    </div>
+    <div>
+        <label class="block text-sm text-gray-700 dark:text-gray-300 font-medium">Password</label>
+        <input type="password" name="_password" class="block w-full bg-white shadow-md border-gray-300  dark:text-gray-700 rounded-md border p-2 mt-1 mb-2"  />
+    </div>
+    <input type="hidden" name="_target_path" value="/advertisements"/>
+    <div>
+        <button type="submit" class="block w-full shadow-md border-transparent bg-indigo-600 hover:bg-indigo-700 dark:bg-red-600 dark:hover:bg-red-500 text-white rounded-md border p-2 mt-4 mb-2">Login</button>
+    </div>
+</form>
+<div class="mt-2 text-center text-gray-600 dark:text-gray-400">
+        Don't have an account? <a href="{{ path('app_register') }}">Register here</a>
+    </div>
+{% endblock %}

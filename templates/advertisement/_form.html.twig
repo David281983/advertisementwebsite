@@ -1,0 +1,48 @@
+
+{{ form_start(form, {'attr': {'novalidate': 'novalidate'} }) }}
+    <div>{{form_errors(form)}}</div>
+
+    <div>
+        {{form_label(form.title,'Enter the title of your advertisement',{'label_attr':{'class': 'block text-sm text-gray-700 dark:text-gray-300 font-medium'} } )}}
+        {{form_widget(form.title, {'attr': {'class': 'block w-full bg-white shadow-md border-gray-300 dark:border-transparent dark:text-gray-800 rounded-md border p-2 mt-1 mb-2'} } )}}
+        {{ form_errors(form.title) }}
+    </div>
+
+    <div>
+        {{form_label(form.description,'Enter a description of your advertisement', {'label_attr': {'class': 'block text-sm text-gray-700 dark:text-gray-300 font-medium'} })}}
+        {{form_widget(form.description, {'attr': {'class': 'block w-full bg-white shadow-md border-gray-300 dark:border-transparent dark:text-gray-800 rounded-md border p-2 mt-1 mb-2'} })}}
+        {{ form_errors(form.description) }}
+    </div>
+    
+    <div>
+        {{form_label(form.price,'Enter the price', {'label_attr': {'class': 'block text-sm text-gray-700 dark:text-gray-300 font-medium'} })}}
+        {{form_widget(form.price, {'attr': {'class': 'block w-full shadow-md bg-white border-gray-300 dark:border-transparent text-green-600 dark:text-green-500 rounded-md border p-2 mt-1 mb-2'} })}}
+        {{ form_errors(form.price) }}
+    </div>
+    {{ include('advertisement/_image_fields.html.twig') }}
+
+
+        <div class="relative">
+        <label class="block text-sm text-gray-700 dark:text-gray-300 font-medium">Location</label>
+
+        {# câmpul în care se scrie — HTML simplu, nu face parte din formular #}
+        <input type="text" id="location-search" autocomplete="off"
+            placeholder="Type at least 3 letters..."
+            class="block w-full bg-white shadow-md border-gray-300 dark:text-gray-800 rounded-md border p-2 mt-1">
+
+        {# lista de sugestii #}
+        <ul id="location-suggestions"
+            class="absolute z-10 w-full bg-white dark:bg-gray-800 rounded-md shadow-lg mt-1 hidden"></ul>
+
+        {# ce se trimite de fapt #}
+        {{ form_widget(form.locationName, {'attr': {'class': 'block w-full bg-gray-100 dark:text-gray-800 rounded-md border p-2 mt-2'} }) }}
+        {{ form_widget(form.latitude) }}
+        {{ form_widget(form.longitude) }}
+        {{ form_errors(form.locationName) }}
+    </div>
+
+    
+    <div>
+        <button type="submit" class="block w-full shadow-md border-transparent bg-indigo-600 hover:bg-indigo-700 dark:bg-red-600 dark:hover:bg-red-500 text-white rounded-md border p-2 mt-4 mb-2">Save!</button>
+    </div>
+{{ form_end(form) }}

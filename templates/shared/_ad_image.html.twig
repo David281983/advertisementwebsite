@@ -1,0 +1,6 @@
+{% if advertisement.images is not empty %}
+  <img src="{{ ads ~ advertisement.images.first.filename }}"
+       class="w-full h-full object-cover" />
+{% else %}
+  <div class="w-full h-full bg-gray-200 dark:bg-gray-700"></div>
+{% endif %}

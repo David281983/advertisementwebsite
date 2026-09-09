@@ -1,0 +1,9 @@
+<div class="grid grid-cols-1 gap-4">
+  {% if advertisements|length > 0 %}
+    {% for advertisement in advertisements %}
+      {{include('advertisement/_advertisement.html.twig',{advertisement:advertisement}) }}
+    {% endfor %}
+  {% else %}
+    There's nothing here yet!
+  {% endif %}
+</div>

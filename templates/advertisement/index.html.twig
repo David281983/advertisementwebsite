@@ -1,0 +1,8 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}All Advertisements{% endblock %}
+
+{% block body %}
+<div class="flex border-b border-gray-300 dark:border-gray-600 w-full mb-8 mt-18"></div>
+{{include('advertisement/_advertisement_list.html.twig')}}
+{% endblock %}

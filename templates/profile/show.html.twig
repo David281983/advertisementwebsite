@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User Profile{% endblock %}
+{% block bread %}
+→ User Profile
+{% endblock %}
+{% block body %}
+{{include('profile/_profile_header.html.twig') }}
+
+<div class="mb-8">
+    {{ include ('advertisement/_advertisement_list.html.twig', { advertisements: advertisements }) }}
+
+</div>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Advertisement -{{advertisement.title}} {% endblock %}
+{% block bread %}
+→ Advertisement
+{% endblock %}
+{% block body %}
+      <div class="flex items-center mb-4">
+        <div>
+            {{include('shared/_avatar.html.twig',{ profile:advertisement.author.userProfile, size:16 } )  }}
+        </div>
+        <div class="ml-4">
+            <div class="text-xl">
+                {{advertisement.author.userProfile.name ?? advertisement.author.email }}
+            </div>
+        
+            <div class="text-sm text-gray-500 dark:text-gray-400">
+                <a href="{{path('app_profile',{id: advertisement.author.id} ) }} ">
+                    {{advertisement.author.email }}
+                </a>
+            </div>
+        </div>
+    </div>
+    {{ include('advertisement/_gallery.html.twig') }}
+    <h1 class="text-3xl mt-6">{{ advertisement.title }}</h1>
+      <div class="flex justify-between items-center mt-4">
+            <div class="text-3xl text-green-600 dark:text-green-400">
+            {{ advertisement.price }} Lei
+            </div>
+            <div class="flex gap-4 items-center">
+            {% if advertisement.favoritedBy.contains(app.user) %}
+                  <a href="{{ path('app_unfavorite', {id: advertisement.id}) }}">Unfavorite ({{ advertisement.favoritedBy.count }})</a>
+            {% else %}
+                  <a href="{{ path('app_favorite', {id: advertisement.id}) }}">Favorite ({{ advertisement.favoritedBy.count }})</a>
+            {% endif %}
+            
+            {% if is_granted(constant('App\\Entity\\Advertisement::EDIT'), advertisement) %}
+            <a href="{{ path('app_advertisement_edit', {advertisement: advertisement.id}) }}">Edit</a>
+            {% else %}
+                  <div></div>
+            {% endif %}
+            </div>
+      </div>
+      <div class="text-sm text-gray-500 dark:text-gray-400 mt-2">
+      {{ advertisement.created|date("M j, Y") }}
+      </div>
+            <div class="bg-white dark:bg-gray-700 rounded-2xl p-6 mt-6">
+            <h2 class="text-xl mb-4">Description</h2>
+            <div class="whitespace-pre-line">{{ advertisement.description }}</div>
+      </div>
+{% endblock %}

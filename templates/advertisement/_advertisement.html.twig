@@ -1,0 +1,43 @@
+<div class="bg-white dark:bg-gray-700 shadow-2xl rounded-2xl overflow-hidden flex flex-col sm:flex-row sm:h-56">
+  <div class="sm:w-2/5 shrink-0 h-48 sm:h-auto">
+  <a href="{{ path('app_advertisement_show', { advertisement: advertisement.id }) }}" class="hover:opacity-90 ">
+    {{ include('shared/_ad_image.html.twig') }}</a>
+  </div>
+  <div class="flex flex-col flex-1 p-5 min-w-0">
+    <div class="text-2xl line-clamp-2">
+      <a href="{{ path('app_advertisement_show', { advertisement: advertisement.id }) }}">
+        {{ advertisement.title }}
+      </a>
+    </div>
+    
+    <div class="text-gray-500 dark:text-gray-400">
+      {{ advertisement.created | date("M j, Y") }}
+    </div>
+    <div class="text-sm text-gray-500 dark:text-gray-400">
+      <a href="{{path('app_profile',{id: advertisement.author.id}) }} ">{{advertisement.author.email }} </a>
+    </div>
+    <div class="text-sm text-green-500 dark:text-green-400">
+      {{advertisement.price}} Lei
+    </div>
+    <div class="flex justify-between items-center mt-auto pt-4">
+      {% if is_granted(constant('App\\Entity\\Advertisement::EDIT'), advertisement) %}
+      <div>
+        <a href="{{ path('app_advertisement_edit',{advertisement: advertisement.id}) }}">Edit</a>
+      </div>
+      {% else %}  
+      <div></div>
+      {% endif %}
+      <div class="text-right">
+        {% if advertisement.favoritedBy.contains(app.user) %}
+        <a href="{{ path('app_unfavorite',{id: advertisement.id}) }}">Unfavorite
+          <span class="px-2 rounded-md bg-gray-200 dark:bg-gray-700">{{ advertisement.favoritedBy.count }}</span>
+        </a>
+        {% else %}
+        <a href="{{ path('app_favorite',{id: advertisement.id}) }}">Favorite
+          <span class="px-2 rounded-md bg-gray-200 dark:bg-gray-700">{{ advertisement.favoritedBy.count }}</span>
+        </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
