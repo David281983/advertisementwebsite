@@ -44,6 +44,6 @@
             });
 
             list.classList.toggle('hidden', data.features.length === 0);
-        }, 300);
+        }, 2000);
     });
 })();
