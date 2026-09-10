@@ -16,13 +16,13 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction --no-script
 # Apoi restul codului
 COPY . .
 
-# Autoloader-ul are nevoie de src/ ca sa mapeze toate clasele
-RUN composer dump-autoload --no-dev --optimize --no-interaction
-
-# Compileaza asset-urile AssetMapper in public/assets/.
-# Valorile de mai jos sunt doar pentru aceasta comanda, nu raman in imagine —
-# Symfony are nevoie ca variabilele sa existe ca sa porneasca, dar nu se
-# conecteaza nicaieri.
+# Rulat din nou, de data asta CU scripturi: plugin-ul symfony/runtime
+# genereaza vendor/autoload_runtime.php prin post-autoload-dump.
+# Apoi compileaza asset-urile AssetMapper in public/assets/.
+#
+# Valorile de mai jos exista doar pe durata acestei comenzi — Symfony are
+# nevoie ca variabilele sa fie definite ca sa porneasca, dar nu se conecteaza
+# nicaieri. Cele reale vin din Railway, la rulare.
 RUN APP_ENV=prod \
     APP_DEBUG=0 \
     APP_SECRET=build \
@@ -31,7 +31,8 @@ RUN APP_ENV=prod \
     MAILER_FROM=build@example.com \
     MESSENGER_TRANSPORT_DSN=doctrine://default \
     DEFAULT_URI=http://localhost \
-    php bin/console asset-map:compile
+    sh -c "composer install --no-dev --optimize-autoloader --no-interaction --no-progress \
+        && php bin/console asset-map:compile"
 
 # Symfony scrie cache si loguri; uploads trebuie sa existe la pornire
 RUN mkdir -p var/cache var/log public/uploads/ads public/uploads/profiles \
