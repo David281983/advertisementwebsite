@@ -6,6 +6,11 @@ RUN install-php-extensions pdo_mysql intl opcache zip
 # Composer, luat din imaginea lui oficiala
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
+# Intr-un container totul ruleaza ca root. Fara asta, Composer dezactiveaza
+# toate plugin-urile, iar symfony/flex nu mai poate rezolva "symfony-cmd" —
+# scriptul ajunge la shell ca text si esueaza cu exit 127.
+ENV COMPOSER_ALLOW_SUPERUSER=1
+
 WORKDIR /app
 
 # Intai doar fisierele de dependinte: stratul asta ramane in cache
