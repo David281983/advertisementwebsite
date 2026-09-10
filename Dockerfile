@@ -46,4 +46,11 @@ RUN mkdir -p var/cache var/log public/uploads/ads public/uploads/profiles \
 # Configuratia serverului
 COPY Caddyfile /etc/frankenphp/Caddyfile
 
+# Scriptul care populeaza volumul cu pozele demo la fiecare pornire
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["frankenphp", "run", "--config", "/etc/frankenphp/Caddyfile"]
+
 EXPOSE 8080
