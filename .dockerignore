@@ -1,0 +1,26 @@
+# Dependinte: se instaleaza in imagine, nu se copiaza de pe disc
+/vendor/
+/assets/vendor/
+/node_modules/
+
+# Cache si loguri
+/var/
+
+# Secrete locale — NU trebuie sa ajunga niciodata in imagine
+/.env.local
+/.env.local.php
+/.env.*.local
+
+# Fisiere incarcate local, si asset-uri compilate (se recompileaza in build)
+/public/uploads/
+/public/assets/
+
+# Nu au ce cauta intr-o imagine de productie
+/.git/
+/.github/
+/.claude/
+/.phpunit.cache/
+/tests/
+/docs/
+compose.yaml
+compose.override.yaml
