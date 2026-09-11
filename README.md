@@ -30,8 +30,8 @@ authorization, file uploads and third-party API integration.
 
 | | |
 |---|---|
-| Backend | PHP 8.1+, Symfony 6.4, Doctrine ORM |
-| Database | MariaDB 10.8 |
+| Backend | PHP 8.4+, Symfony 6.4, Doctrine ORM |
+| Database | MariaDB 10.8.3 |
 | Frontend | Twig, Tailwind CSS, AssetMapper (no build step) |
 | Mail | Symfony Mailer — Mailpit locally, Brevo SMTP in production |
 | Infra | Docker Compose (MariaDB, Mailpit, Adminer) |
